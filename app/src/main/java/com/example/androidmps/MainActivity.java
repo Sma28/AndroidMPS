@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 options.inMutable=true;
                 Bitmap myBitmap = BitmapFactory.decodeResource(
                         getApplicationContext().getResources(),
-                        R.drawable.test1,
+                        R.drawable.showing,
                         options);
 
                 Paint myRectPaint = new Paint();
