@@ -22,6 +22,7 @@ import com.google.android.gms.vision.face.Contour;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.Landmark;
 import java.util.List;
+import android.R.style;
 
 
 
@@ -42,10 +43,11 @@ public class MainActivity extends AppCompatActivity {
                 options.inMutable=true;
                 Bitmap myBitmap = BitmapFactory.decodeResource(
                         getApplicationContext().getResources(),
-                        R.drawable.test1,
+                        R.drawable.test,
                         options);
-
-                Paint myRectPaint = new Paint();
+                Bitmap newBitmap = BitmapFilter.changeStyle(myBitmap, BitmapFilter.AVERAGE_BLUR_STYLE);
+                myImageView.setImageBitmap(newBitmap);
+                /*Paint myRectPaint = new Paint();
                 myRectPaint.setStrokeWidth(5);
                 myRectPaint.setColor(Color.RED);
                 myRectPaint.setStyle(Paint.Style.STROKE);
@@ -56,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
                 tempCanvas.drawBitmap(myBitmap, 0, 0, null);
 
                 FaceDetector faceDetector = new
-                        FaceDetector.Builder(getApplicationContext()).setTrackingEnabled(false)
+                        FaceDetector.Builder(getApplicationContext()).setProminentFaceOnly(true).setLandmarkType(2)
                         .build();
+                //setTrackingEnabled(true).
                 if(!faceDetector.isOperational()){
                     new AlertDialog.Builder(v.getContext()).setMessage("Could not set up the face detector!").show();
                     return;
@@ -68,16 +71,19 @@ public class MainActivity extends AppCompatActivity {
 
                 for(int i=0; i<faces.size(); i++) {
                     Face thisFace = faces.valueAt(i);
-                    thisFace.getPosition();
                     float x1 = thisFace.getPosition().x;
                     float y1 = thisFace.getPosition().y;
                     float x2 = x1 + thisFace.getWidth();
                     float y2 = y1 + thisFace.getHeight();
                     List<Landmark> lmarks = thisFace.getLandmarks();
-                    Log.d("ceva", String.valueOf(lmarks.size()));
-                    tempCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 2, 2, myRectPaint);
+                    Log.d("ceva1", String.valueOf(lmarks.size()));
+                    /*Log.d("ceva", String.valueOf(lmarks.get(0).getPosition().x));
+                    Log.d("ceva1", String.valueOf(lmarks.get(0).getType()));
+                    Log.d("ceva1", String.valueOf(lmarks.get(1).getType()));
+                    tempCanvas.drawRoundRect(new RectF(lmarks.get(0).getPosition().x, lmarks.get(0).getPosition().y, lmarks.get(1).getPosition().x, lmarks.get(1).getPosition().y), 2, 2, myRectPaint);
+                    empCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 2, 2, myRectPaint);
                 }
-                myImageView.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));
+                myImageView.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));*/
             }
         });
 
