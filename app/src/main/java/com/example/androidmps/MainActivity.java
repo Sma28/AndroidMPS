@@ -11,13 +11,19 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.Contour;
 import com.google.android.gms.vision.face.FaceDetector;
+import com.google.android.gms.vision.face.Landmark;
+import java.util.List;
+
+
 
 import android.os.Bundle;
 
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 options.inMutable=true;
                 Bitmap myBitmap = BitmapFactory.decodeResource(
                         getApplicationContext().getResources(),
-                        R.drawable.file,
+                        R.drawable.test1,
                         options);
 
                 Paint myRectPaint = new Paint();
@@ -62,10 +68,13 @@ public class MainActivity extends AppCompatActivity {
 
                 for(int i=0; i<faces.size(); i++) {
                     Face thisFace = faces.valueAt(i);
+                    thisFace.getPosition();
                     float x1 = thisFace.getPosition().x;
                     float y1 = thisFace.getPosition().y;
                     float x2 = x1 + thisFace.getWidth();
                     float y2 = y1 + thisFace.getHeight();
+                    List<Landmark> lmarks = thisFace.getLandmarks();
+                    Log.d("ceva", String.valueOf(lmarks));
                     tempCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 2, 2, myRectPaint);
                 }
                 myImageView.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));
