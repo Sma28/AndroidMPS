@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     float x2 = x1 + thisFace.getWidth();
                     float y2 = y1 + thisFace.getHeight();
                     List<Landmark> lmarks = thisFace.getLandmarks();
-                    Log.d("ceva", String.valueOf(lmarks));
+                    Log.d("ceva", String.valueOf(lmarks.size()));
                     tempCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 2, 2, myRectPaint);
                 }
                 myImageView.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));
