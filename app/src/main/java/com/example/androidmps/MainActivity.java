@@ -35,7 +35,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn = (Button) findViewById(R.id.button1);
+
+        Button showImage = (Button) findViewById(R.id.button1);
+        showImage.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                ImageView myImageView = (ImageView) findViewById(R.id.imgview);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inMutable=true;
+                Bitmap myBitmap = BitmapFactory.decodeResource(
+                        getApplicationContext().getResources(),
+                        R.drawable.test1,
+                        options);
+
+                Bitmap tempBitmap = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight(), Bitmap.Config.RGB_565);
+                Canvas tempCanvas = new Canvas(tempBitmap);
+                tempCanvas.drawBitmap(myBitmap, 0, 0, null);
+                myImageView.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));
+            }
+
+        });
+
+        Button btn = (Button) findViewById(R.id.buttonCartoon);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
                         options);
                 Bitmap copyBitmap = myBitmap;
                 CartoonFilter cf = new CartoonFilter();
-                OldFilter of = new OldFilter();
-                Bitmap output = JCanny.CannyEdges(myBitmap, CANNY_STD_DEV, CANNY_THRESHOLD_RATIO);
-                //myBitmap = cf.getCartoonImage(myBitmap);
+                //OldFilter of = new OldFilter();
+                //Bitmap output = JCanny.CannyEdges(myBitmap, CANNY_STD_DEV, CANNY_THRESHOLD_RATIO);
+                myBitmap = cf.getCartoonImage(myBitmap);
                 //myBitmap = of.changeToOld(myBitmap);
                 //myBitmap = output;
                 Paint myRectPaint = new Paint();
@@ -58,14 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 myRectPaint.setColor(Color.RED);
                 myRectPaint.setStyle(Paint.Style.STROKE);
 
-
                 Bitmap tempBitmap = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight(), Bitmap.Config.RGB_565);
                 Canvas tempCanvas = new Canvas(tempBitmap);
-
-
                 tempCanvas.drawBitmap(myBitmap, 0, 0, null);
-
-
 
                 FaceDetector faceDetector = new
                         FaceDetector.Builder(getApplicationContext()).setProminentFaceOnly(true).setMode(FaceDetector.SELFIE_MODE).setLandmarkType(FaceDetector.CONTOUR_LANDMARKS)
