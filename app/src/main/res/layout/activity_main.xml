@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="497dp"
         android:text="Show image" />
 
     <Button
@@ -28,8 +28,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
-        android:layout_marginStart="-119dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginStart="-113dp"
+        android:layout_marginTop="562dp"
         android:layout_toEndOf="@id/button1"
         android:text="Cartoon" />
 
@@ -38,8 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="562dp"
         android:layout_toEndOf="@id/buttonCartoon"
         android:text="CannyEdge" />
 
@@ -48,8 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="67dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="563dp"
         android:layout_toEndOf="@id/buttonCannyEdge"
         android:text="Dog face" />
 
@@ -58,8 +58,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
-        android:layout_marginStart="-306dp"
-        android:layout_marginTop="121dp"
+        android:layout_marginStart="-315dp"
+        android:layout_marginTop="618dp"
         android:layout_toEndOf="@id/buttonDogFace"
         android:text="FlowerPower" />
 
@@ -68,8 +68,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="619dp"
         android:layout_toEndOf="@id/buttonFlower"
         android:text="OldFilter" />
 
@@ -78,8 +78,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="123dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="618dp"
         android:layout_toEndOf="@id/buttonOldFilter"
         android:text="Face Detection" />
 

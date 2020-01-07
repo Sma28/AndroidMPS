@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final double CANNY_THRESHOLD_RATIO = .2; //Suggested range .2 - .4
     private static final int CANNY_STD_DEV = 1;
-    public static int filename = R.drawable.showing;
+    public static int filename = R.drawable.file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
