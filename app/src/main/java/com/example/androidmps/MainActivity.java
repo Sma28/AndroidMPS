@@ -3,7 +3,6 @@ package com.example.androidmps;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,9 +22,7 @@ import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.Landmark;
 import java.util.List;
 import android.graphics.PointF;
-import android.R.style;
-
-
+import android.graphics.Bitmap;
 
 import android.os.Bundle;
 
@@ -38,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn = (Button) findViewById(R.id.button);
+        Button btn = (Button) findViewById(R.id.button1);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 options.inMutable=true;
                 Bitmap myBitmap = BitmapFactory.decodeResource(
                         getApplicationContext().getResources(),
-                        R.drawable.test,
+                        R.drawable.test1,
                         options);
                 Bitmap copyBitmap = myBitmap;
                 CartoonFilter cf = new CartoonFilter();
