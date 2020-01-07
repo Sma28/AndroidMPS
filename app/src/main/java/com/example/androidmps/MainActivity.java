@@ -22,6 +22,7 @@ import com.google.android.gms.vision.face.Contour;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.Landmark;
 import java.util.List;
+import android.graphics.PointF;
 import android.R.style;
 
 
@@ -29,6 +30,9 @@ import android.R.style;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final double CANNY_THRESHOLD_RATIO = .2; //Suggested range .2 - .4
+    private static final int CANNY_STD_DEV = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +49,14 @@ public class MainActivity extends AppCompatActivity {
                         getApplicationContext().getResources(),
                         R.drawable.test,
                         options);
-                Bitmap newBitmap = BitmapFilter.changeStyle(myBitmap, BitmapFilter.AVERAGE_BLUR_STYLE);
-                myImageView.setImageBitmap(newBitmap);
-                /*Paint myRectPaint = new Paint();
+                Bitmap copyBitmap = myBitmap;
+                CartoonFilter cf = new CartoonFilter();
+                OldFilter of = new OldFilter();
+                Bitmap output = JCanny.CannyEdges(myBitmap, CANNY_STD_DEV, CANNY_THRESHOLD_RATIO);
+                //myBitmap = cf.getCartoonImage(myBitmap);
+                //myBitmap = of.changeToOld(myBitmap);
+                //myBitmap = output;
+                Paint myRectPaint = new Paint();
                 myRectPaint.setStrokeWidth(5);
                 myRectPaint.setColor(Color.RED);
                 myRectPaint.setStyle(Paint.Style.STROKE);
@@ -55,19 +64,43 @@ public class MainActivity extends AppCompatActivity {
 
                 Bitmap tempBitmap = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight(), Bitmap.Config.RGB_565);
                 Canvas tempCanvas = new Canvas(tempBitmap);
+
+
                 tempCanvas.drawBitmap(myBitmap, 0, 0, null);
 
+
+
                 FaceDetector faceDetector = new
-                        FaceDetector.Builder(getApplicationContext()).setProminentFaceOnly(true).setLandmarkType(2)
+                        FaceDetector.Builder(getApplicationContext()).setProminentFaceOnly(true).setMode(FaceDetector.SELFIE_MODE).setLandmarkType(FaceDetector.CONTOUR_LANDMARKS)
                         .build();
-                //setTrackingEnabled(true).
                 if(!faceDetector.isOperational()){
                     new AlertDialog.Builder(v.getContext()).setMessage("Could not set up the face detector!").show();
                     return;
                 }
 
-                Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
+                Frame frame = new Frame.Builder().setBitmap(copyBitmap).build();
                 SparseArray<Face> faces = faceDetector.detect(frame);
+                Bitmap flower = BitmapFactory.decodeResource(
+                        getApplicationContext().getResources(),
+                        R.drawable.flower_crown,
+                        options);
+                Bitmap dogLeftEar = BitmapFactory.decodeResource(
+                        getApplicationContext().getResources(),
+                        R.drawable.dog_left_ear,
+                        options);
+                Bitmap dogRightEar = BitmapFactory.decodeResource(
+                        getApplicationContext().getResources(),
+                        R.drawable.dog_right_ear,
+                        options);
+                Bitmap dogNose = BitmapFactory.decodeResource(
+                        getApplicationContext().getResources(),
+                        R.drawable.dog_nose,
+                        options);
+
+                Bitmap dogTongue = BitmapFactory.decodeResource(
+                        getApplicationContext().getResources(),
+                        R.drawable.dog_tongue,
+                        options);
 
                 for(int i=0; i<faces.size(); i++) {
                     Face thisFace = faces.valueAt(i);
@@ -76,14 +109,37 @@ public class MainActivity extends AppCompatActivity {
                     float x2 = x1 + thisFace.getWidth();
                     float y2 = y1 + thisFace.getHeight();
                     List<Landmark> lmarks = thisFace.getLandmarks();
-                    Log.d("ceva1", String.valueOf(lmarks.size()));
-                    /*Log.d("ceva", String.valueOf(lmarks.get(0).getPosition().x));
-                    Log.d("ceva1", String.valueOf(lmarks.get(0).getType()));
-                    Log.d("ceva1", String.valueOf(lmarks.get(1).getType()));
-                    tempCanvas.drawRoundRect(new RectF(lmarks.get(0).getPosition().x, lmarks.get(0).getPosition().y, lmarks.get(1).getPosition().x, lmarks.get(1).getPosition().y), 2, 2, myRectPaint);
-                    empCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 2, 2, myRectPaint);
+                    List<Contour> contours = thisFace.getContours();
+                    for (int j = 0 ; j < contours.size(); j++) {
+                        PointF[] pts = contours.get(j).getPositions();
+                        if(contours.get(j).getType() == 1) {
+                            //tempCanvas.drawBitmap(dogLeftEar, 0, 0, new Paint());
+                            //tempCanvas.drawLine(pts[pts.length  -   3].x, pts[pts.length -  3].y, pts[pts.length  -  2].x, pts[pts.length  -  2].y, myRectPaint);
+                            tempCanvas.drawBitmap(dogLeftEar, pts[pts.length  -   3].x - dogLeftEar.getWidth()/2, pts[pts.length  -   3].y - dogLeftEar.getHeight(), new Paint());
+                            tempCanvas.drawBitmap(dogRightEar, pts[3].x , pts[3].y - dogRightEar.getHeight(), new Paint());
+
+                            //flower
+                            //tempCanvas.drawLine(pts[0].x, pts[0].y, pts[pts.length -1].x, pts[pts.length -1].y, myRectPaint);
+                            //tempCanvas.drawBitmap(flower, (pts[0].x + pts[pts.length -1].x)/2 - flower.getWidth()/2, (pts[0].y + pts[pts.length -1].y) / 2 - flower.getHeight()/2 , new Paint());
+
+                        }
+
+                        if(contours.get(j).getType()== 12) {
+                            tempCanvas.drawBitmap(dogNose, pts[0].x - dogNose.getWidth()/2 , pts[pts.length - 1].y - dogNose.getHeight() / 2, new Paint());
+                        }
+
+                        if(contours.get(j).getType()== 10) {
+                            tempCanvas.drawBitmap(dogTongue, pts[pts.length / 2 - 1].x - dogTongue.getWidth() / 2 - 10 , pts[pts.length / 2].y , new Paint());
+                        }
+                        /*for (int k = 0; k < pts.length -1; k++) {
+                            tempCanvas.drawLine(pts[k].x, pts[k].y, pts[k+1].x, pts[k+1].y, myRectPaint);
+                        }
+                        if(contours.get(j).getType() == 1)
+                            tempCanvas.drawLine(pts[pts.length-1].x, pts[pts.length-1].y, pts[0].x, pts[0].y, myRectPaint);*/
+
+                    }
                 }
-                myImageView.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));*/
+                myImageView.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));
             }
         });
 
