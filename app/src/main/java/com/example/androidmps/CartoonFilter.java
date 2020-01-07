@@ -6,8 +6,8 @@ public class CartoonFilter {
 
     public Bitmap getCartoonImage(Bitmap image) {
 
-        int radius = 10;
-        float colorDistance = 20f;
+        int radius = 15;
+        float colorDistance = 30f;
         int width = image.getHeight();
         int height = image.getWidth();
         //System.out.println(width + " " + height);
